@@ -1,5 +1,7 @@
 #!/bin/bash
 
+export PYTHONPATH="$(pwd)/src/web_asset_fetcher:$PYTHONPATH"
+
 coverage_test=false
 html_report=false
 
