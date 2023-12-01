@@ -1,4 +1,4 @@
-from src.web_asset_fetcher.index import handler, get_file_path
+from src.web_asset_fetcher.index import handler, get_file_path, fetch_file
 
 
 def test_handler():
@@ -25,3 +25,25 @@ def test_get_file_path_without_proxy():
     file_path = get_file_path(event)
 
     assert file_path == "index.html"
+
+
+def test_fetch_file_file_not_found():
+    file_path = "non_exist_file"
+    expected_response = {"statusCode": 404, "body": "File not found"}
+
+    response = fetch_file(file_path)
+
+    assert response == expected_response
+
+
+def test_fetch_file_index_html():
+    file_path = "index.html"
+    expected_response = {
+        "statusCode": 200,
+        "headers": {"Content-Type": "text/html"},
+        "body": "This is a dummy index.html",
+    }
+
+    response = fetch_file(file_path)
+
+    assert response == expected_response
