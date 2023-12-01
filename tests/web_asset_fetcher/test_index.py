@@ -1,4 +1,10 @@
-from src.web_asset_fetcher.index import handler, get_file_path, fetch_file
+import json
+from src.web_asset_fetcher.index import (
+    handler,
+    get_file_path,
+    fetch_file,
+    create_config_json_response,
+)
 
 
 def test_handler():
@@ -29,6 +35,18 @@ def test_get_file_path_without_proxy():
     file_path = get_file_path(event)
 
     assert file_path == "index.html"
+
+
+def test_create_config_json_response():
+    expected_response = {
+        "statusCode": 200,
+        "headers": {"Content-Type": "application/json"},
+        "body": json.dumps({"apiBaseUrl": "https://www.test-api-url.com"}),
+    }
+
+    response = create_config_json_response()
+
+    assert response == expected_response
 
 
 def test_fetch_file_file_not_found():

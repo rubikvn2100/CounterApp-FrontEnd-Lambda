@@ -1,4 +1,5 @@
 import boto3
+import json
 import mimetypes
 import os
 
@@ -16,6 +17,14 @@ def get_file_path(event: dict) -> str:
         return event["pathParameters"]["proxy"]
 
     return "index.html"
+
+
+def create_config_json_response():
+    return {
+        "statusCode": 200,
+        "headers": {"Content-Type": "application/json"},
+        "body": json.dumps({"apiBaseUrl": os.environ["API_BASE_URL"]}),
+    }
 
 
 def fetch_file(file_path: str) -> dict:

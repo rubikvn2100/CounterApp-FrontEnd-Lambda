@@ -5,6 +5,7 @@ from moto import mock_s3
 
 AWS_REGION = "us-west-1"
 BUCKET_NAME = "test_web_assets_bucket"
+API_BASE_URL = "https://www.test-api-url.com"
 
 
 @pytest.fixture(autouse=True)
@@ -19,10 +20,12 @@ def set_aws_env():
 @pytest.fixture(autouse=True)
 def set_mock_aws_lambda_env():
     os.environ["BUCKET_NAME"] = BUCKET_NAME
+    os.environ["API_BASE_URL"] = API_BASE_URL
 
     yield
 
     del os.environ["BUCKET_NAME"]
+    del os.environ["API_BASE_URL"]
 
 
 @pytest.fixture(autouse=True)
