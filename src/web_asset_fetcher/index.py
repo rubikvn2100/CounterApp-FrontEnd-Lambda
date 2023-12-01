@@ -4,7 +4,11 @@ import os
 
 
 def handler(event: dict, context) -> dict:
-    return {"statusCode": 200}
+    file_path = get_file_path(event)
+
+    print(f'Resolved file path: "{file_path}"')
+
+    return fetch_file(file_path)
 
 
 def get_file_path(event: dict) -> str:

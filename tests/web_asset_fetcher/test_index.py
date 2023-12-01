@@ -2,9 +2,13 @@ from src.web_asset_fetcher.index import handler, get_file_path, fetch_file
 
 
 def test_handler():
-    event = {}
+    event = {"pathParameters": {}}
     context = {}
-    expected_response = {"statusCode": 200}
+    expected_response = {
+        "statusCode": 200,
+        "headers": {"Content-Type": "text/html"},
+        "body": "This is a dummy index.html",
+    }
 
     response = handler(event, context)
 
