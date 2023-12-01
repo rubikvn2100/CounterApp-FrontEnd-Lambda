@@ -9,6 +9,9 @@ def handler(event: dict, context) -> dict:
 
     print(f'Resolved file path: "{file_path}"')
 
+    if file_path == "config.json":
+        return create_config_json_response()
+
     return fetch_file(file_path)
 
 

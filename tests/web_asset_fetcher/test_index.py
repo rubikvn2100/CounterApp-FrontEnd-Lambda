@@ -7,7 +7,21 @@ from src.web_asset_fetcher.index import (
 )
 
 
-def test_handler():
+def test_handler_config_json_case():
+    event = {"pathParameters": {"proxy": "config.json"}}
+    context = {}
+    expected_response = {
+        "statusCode": 200,
+        "headers": {"Content-Type": "application/json"},
+        "body": json.dumps({"apiBaseUrl": "https://www.test-api-url.com"}),
+    }
+
+    response = handler(event, context)
+
+    assert response == expected_response
+
+
+def test_handler_general_case():
     event = {"pathParameters": {}}
     context = {}
     expected_response = {
