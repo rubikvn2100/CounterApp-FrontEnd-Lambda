@@ -1,6 +1,7 @@
 import boto3
 import os
 import pytest
+from moto import mock_s3
 
 AWS_REGION = "us-west-1"
 BUCKET_NAME = "test_web_assets_bucket"
@@ -22,3 +23,22 @@ def set_mock_aws_lambda_env():
     yield
 
     del os.environ["BUCKET_NAME"]
+
+
+@pytest.fixture(autouse=True)
+def create_mock_web_assets_bucket():
+    with mock_s3():
+        s3_client = boto3.client("s3", region_name=AWS_REGION)
+
+        s3_client.create_bucket(
+            Bucket=BUCKET_NAME,
+            CreateBucketConfiguration={"LocationConstraint": AWS_REGION},
+        )
+
+        s3 = boto3.resource("s3", region_name=AWS_REGION)
+
+        for file_name in ["index.html", "bundle.js"]:
+            obj = s3.Object(BUCKET_NAME, file_name)
+            obj.put(Body=f"This is a dummy {file_name}")
+
+        yield
