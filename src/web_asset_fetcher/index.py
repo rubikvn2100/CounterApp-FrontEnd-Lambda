@@ -10,9 +10,9 @@ def handler(event: dict, context) -> dict:
     print(f'Resolved file path: "{file_path}"')
 
     if file_path == "config.json":
-        return create_config_json_response()
+        return add_cache_control_headers(create_config_json_response())
 
-    return fetch_file(file_path)
+    return add_cache_control_headers(fetch_file(file_path))
 
 
 def get_file_path(event: dict) -> str:

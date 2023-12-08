@@ -13,7 +13,7 @@ def test_handler_config_json_case():
     context = {}
     expected_response = {
         "statusCode": 200,
-        "headers": {"Content-Type": "application/json"},
+        "headers": {"Content-Type": "application/json", "Cache-Control": "max-age=60"},
         "body": json.dumps({"apiBaseUrl": "https://www.test-api-url.com"}),
     }
 
@@ -27,7 +27,7 @@ def test_handler_general_case():
     context = {}
     expected_response = {
         "statusCode": 200,
-        "headers": {"Content-Type": "text/html"},
+        "headers": {"Content-Type": "text/html", "Cache-Control": "max-age=60"},
         "body": "This is a dummy index.html",
     }
 
