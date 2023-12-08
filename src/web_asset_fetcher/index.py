@@ -48,3 +48,13 @@ def fetch_file(file_path: str) -> dict:
         "headers": {"Content-Type": mime_type},
         "body": s3_response["Body"].read().decode("utf-8"),
     }
+
+
+def add_cache_control_headers(response: dict) -> dict:
+    cache_duration = int(os.environ["CACHE_DURATION"])
+
+    cache_control_headers = {"Cache-Control": f"max-age={cache_duration}"}
+
+    response["headers"] = {**response.get("headers", {}), **cache_control_headers}
+
+    return response

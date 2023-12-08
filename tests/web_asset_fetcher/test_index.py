@@ -4,6 +4,7 @@ from src.web_asset_fetcher.index import (
     get_file_path,
     fetch_file,
     create_config_json_response,
+    add_cache_control_headers,
 )
 
 
@@ -83,3 +84,23 @@ def test_fetch_file_index_html():
     response = fetch_file(file_path)
 
     assert response == expected_response
+
+
+def test_add_cache_control_headers_with_headers():
+    input_response = {"headers": {"Dummy-Header": "DummyValue"}}
+    expected_output_response = {
+        "headers": {"Dummy-Header": "DummyValue", "Cache-Control": "max-age=60"}
+    }
+
+    output_response = add_cache_control_headers(input_response)
+
+    assert output_response == expected_output_response
+
+
+def test_add_cache_control_headers_without_headers():
+    input_response = {}
+    expected_output_response = {"headers": {"Cache-Control": "max-age=60"}}
+
+    output_response = add_cache_control_headers(input_response)
+
+    assert output_response == expected_output_response
